@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Edit Student</h1>
+  </header>
+
+  <main>
+    <form id="editForm">
+      <input type="hidden" name="id" id="id">
+      Name:
+      <input type="text" name="name" id="name">
+      <br><br>
+      Email:
+      <input type="text" name="email" id="email">
+      <br><br>
+      Password:
+      <input type="text" name="password" id="password">
+      <br><br>
+      Contact:
+      <input type="contact" name="contact" id="contact">
+      <br><br>
+      <input type="submit" value="Update">
+    </form>
+  </main>
+
+  <script>
+    const getUrlParameter = (name) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+
+    const fetchStudentData = (id) => {
+      $.ajax({
+        type: 'GET',
+        url: `http://localhost:5000/student/edit/${id}`,
+        success: (student) => {
+          $("#name").val(student.name);
+          $("#email").val(student.email);
+          $("#password").val(student.password);
+          $("#contact").val(student.contact);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
+
+    $(document).ready(function () {
+      const studentId = getUrlParameter('id');
+      fetchStudentData(studentId);
+
+      $("#editForm").submit(function (event) {
+        event.preventDefault();
+
+        const student = {
+          name: $("#name").val(),
+          email: $("#email").val(),
+          password: $("#passsword").val(),
+          contact: $("#contact").val(),
+        };
+
+        $.ajax({
+          type: 'POST',
+          url: `http://localhost:5000/student/edit/${studentId}`,
+          data: JSON.stringify(student),
+          contentType: "application/json",
+          success: (response) => {
+            console.log(response);
+            window.location.href = "students.html";
+          },
+          error: () => {
+            console.log(error);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>

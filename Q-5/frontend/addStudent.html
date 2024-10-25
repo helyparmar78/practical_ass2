@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Add Students</h1>
+  </header>
+
+  <main>
+    <form id="studentForm">
+      Name:
+      <input type="text" name="name" id="name">
+      <br><br>
+      Email:
+      <input type="text" name="email" id="email">
+      <br><br>
+      Password:
+      <input type="text" name="password" id="password">
+      <br><br>
+      Contact:
+      <input type="contact" name="contact" id="contact">
+      <br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </main>
+
+  <script>
+    $("#studentForm").submit((event) => {
+      event.preventDefault();
+
+      const student = {
+        name: $("#name").val(),
+        email: $("#email").val(),
+        password: $("#password").val(),
+        contact: $("#contact").val(),
+      };
+
+      $.ajax({
+        type: 'POST',
+        url: 'http://localhost:5000/student/create',
+        data: JSON.stringify(student),
+        contentType: "application/json",
+        success: function (response) {
+          console.log(response)
+          window.location.href = "students.html";
+        },
+        error: function (error) {
+          console.log(error);
+        },
+      });
+    });
+  </script>
+</body>
+
+</html>

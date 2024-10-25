@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <header>
+    <h1>Users List</h1>
+  </header>
+
+  <main>
+    <a href="/user/create">Add User</a>
+    <br><br>
+    <table border="1" style="border-collapse: collapse; width:100%;">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Age</th>
+          <th>Files</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(function(user){ %>
+          <tr>
+            <td>
+              <%= user.name %>
+            </td>
+            <td>
+              <%= user.email %>
+            </td>
+            <td>
+              <%= user.password %>
+            </td>
+            <td>
+              <%= user.age %>
+            </td>
+            <td>
+              <div style="display: flex;">
+                <% user.files.forEach(function(file){ %>
+                  <img src="/uploads/<%= file %>" height="100px" width="100px">
+                  <a href="/user/download/<%=file%>">
+                    <%= file %>
+                  </a>
+                  <% }) %>
+              </div>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </main>
+</body>
+
+</html>

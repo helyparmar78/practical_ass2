@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <header>
+    <h1>Students</h1>
+  </header>
+
+  <main>
+    <a href="/student/create">Add Student</a>
+    <a href="/user/logout">Logout</a>
+    <br><br>
+    <table border="1" style="border-collapse: collapse;width:100%">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Password</th>
+          <th>Contact</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <%students.forEach(function(student){ %>
+          <tr>
+            <td>
+              <%= student.name %>
+            </td>
+            <td>
+              <%= student.email %>
+            </td>
+            <td>
+              <%= student.password %>
+            </td>
+            <td>
+              <%= student.contact %>
+            </td>
+            <td>
+              <a href="/student/edit/<%=student._id%>">Edit</a>
+              <a href="/student/delete/<%=student._id%>">Delete</a>
+            </td>
+          </tr>
+          <%})%>
+      </tbody>
+    </table>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>Students List</h1>
+  </header>
+
+  <a href="addStudent.html">Add Students</a>
+  <br><br>
+  <table id="studentTable" border="1" style="width:100%;border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Password</th>
+        <th>Contact</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+    </tbody>
+  </table>
+
+  <script>
+    $(document).ready(() => {
+      function fetchStudent() {
+        $.ajax({
+          type: "GET",
+          url: "http://localhost:5000/student",
+          success: (data) => {
+            $("#studentTable tbody").empty();
+
+            data.forEach((student) => {
+              const row = `
+              <tr>
+                <td>${student.name}</td>
+                <td>${student.email}</td>
+                <td>${student.password}</td>
+                <td>${student.contact}</td>
+                <td>
+                  <button><a href='editStudent.html?id=${student._id}'>Edit</a></button>
+                  <button class='delete-btn' data-id=${student._id}>Delete</button>
+                </td>
+              </tr>`;
+              $("#studentTable tbody").append(row);
+            });
+          },
+          error: (err) => {
+            console.log("error..", err);
+          },
+        });
+      }
+      fetchStudent();
+
+      $(document).on('click', '.delete-btn', function () {
+        const studentId = $(this).data('id');
+        $.ajax({
+          type: 'GET',
+          url: `http://localhost:5000/student/delete/${studentId}`,
+          success: () => {
+            fetchStudent();
+          },
+          error: (err) => {
+            console.log(err);
+          },
+        });
+      });
+    });
+  </script>
+</body>
+
+</html>
